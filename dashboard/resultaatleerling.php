@@ -36,7 +36,7 @@ $userdata = getUserData($leerling_id);
 									$examencijferresultaten = getAllExamResultsWithNterm($_POST['leerlingid']);
 
 									if(empty($examencijferresultaten)){
-										echo $userdata['voornaam']." ".$userdata['tussenvoegsel']." ".$userdata['achternaam']." heeft nog geen resultaten teogevoegd.";
+										echo $userdata['voornaam']." ".$userdata['tussenvoegsel']." ".$userdata['achternaam']." heeft nog geen resultaten toegevoegd.";
 									} else {
 									echo"<p>Hieronder een figuur waarin een overzicht wordt gegeven hoe de door <b>".$userdata['voornaam']."</b> ingevoerde examens gemaakt zijn. Cijfers zijn berekend met de juiste N-term van het bijbehorende examen.</p>";
 
@@ -131,15 +131,16 @@ $userdata = getUserData($leerling_id);
 							<div class="panel panel-default">
 							  <div class="panel-heading"><h3 class="panel-title"><h3 class="panel-title">Voortgang van <?php echo $userdata['voornaam']." ".$userdata['tussenvoegsel']." ".$userdata['achternaam']; ?> per examen per categorie.</h3></h3></div>
 							  <div class="panel-body">
+							  <div class="table-responsive">
 								<?php
 								$data = getExamQuestionResults($_POST['leerlingid']);
 
 								if(empty($examencijferresultaten)){
-								    echo"Er zijn nog geen resultaten ingevoerd, klik <a class='button' href='examenresultatentoevoegen.php'>hier</a> om resultaten toe te voegen.";
+										echo $userdata['voornaam']." ".$userdata['tussenvoegsel']." ".$userdata['achternaam']." heeft nog geen resultaten toegevoegd.";
 								} else {
 								?>
 
-								<div class="table-responsive">
+								
 								    <table class="table">
 
 								        <?php
