@@ -7,7 +7,7 @@ if(isset($_POST["leerling"])) {
 	$leerling = filter_var($leerling, FILTER_SANITIZE_NUMBER_INT);
 
 	$leerling_gegevens = getStudentData($leerling);
-
+	var_dump($leerling_gegevens);
 	$generated_password = generate_random_password();
 	$leerling_gegevens["wachtwoord"] = password_hash($generated_password, PASSWORD_BCRYPT);
 
