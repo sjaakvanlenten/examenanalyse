@@ -1,0 +1,192 @@
+/*---LOGINPAGE---*/
+.alternative-body {
+	background-color: #1bbc9b;
+}
+.loginmargin {
+	padding-top: 50px;
+}
+.loginblock {
+	padding: 15px;
+	background-color: #eeeff1;
+}
+.loginblock h1 {
+	color: #1bbc9b;
+	margin-bottom: 35px;
+}
+.login-form {
+	margin-bottom: 15px;
+}
+.copyrightelement {
+	margin-top: 50px;
+	color: #fff;
+}
+/*---HEADER---*/
+.container-header{
+	position: fixed;
+    width: 100%;
+    z-index: 999;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.header {
+	height: 50px;
+	padding-top: 5px;
+	background-color: #1bbc9b;
+    
+}
+.header img{
+	height: 34px;
+	float: left;
+	margin-top: 3px;
+}
+.header h3{
+	margin: 7px;
+	margin-left: 20px;
+	float: left;
+	color: #fff;
+}
+.usermenu {
+	background-color: #222;
+}
+.usermenu a{
+	float: right;
+}
+/*---PAGE-CONTENT---*/
+.wrapper {
+	padding-left: 250px;
+	padding-top: 50px;
+}
+.sidebar-wrapper {
+	position: fixed;
+	width: 250px;
+	height: 100%;
+	margin-left: -250px;
+	background-color: #222;
+}
+.sidebar-nav li {
+	text-indent: 20px;
+	line-height: 45px;
+	font-size: medium;
+}
+.sidebar-nav li a {
+	display: block;
+	text-decoration: none;
+	color: #999;
+}
+.active-nav {
+	background-color: #333;
+	color: #fff !important;
+	font-size: larger;
+	line-height: 50px;
+}
+.sidebar-nav li a:hover {
+	background-color: #333;
+	color: #fff;
+}
+.settings-nav {
+	position: fixed;
+	bottom: 0px;
+	width: 250px;
+}
+.page-wrapper {
+	padding-top: 15px;
+}
+.white-background {
+	background-color: #fff;
+}
+.table-column {
+	max-width: 105px;
+}
+thead {
+	border-bottom: 2px solid #ddd;
+	font-size: 18px;
+}
+.gebruiker-gegevens > tbody > tr > td,
+.gebruiker-gegevens > tbody > tr > th {
+	border: 0px;
+	border-bottom: 1px solid #edeff0;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+.wijzigwachtwoord {
+	width: 40%;
+	margin-right: auto;
+	margin-left: auto;
+}
+.wijzigwachtwoord > tbody > tr > th,
+.wijzigwachtwoord > tbody > tr > td {
+	border: 0px;
+}
+.wijzigwachtwoord > tbody > tr > th {
+	font-size: 1.2em;
+		text-align: center;
+}
+.wijzigwachtwoord input {
+	border:2px solid #ccc
+}
+.wijzigwachtwoord input[type="password"] {
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+.panel {
+	font-size: 16px;
+	color: #555;
+}
+.panel-title {
+	font-size: 22px;
+	font-weight: bold;
+	color: #222;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+#load {
+	margin: 100px auto;
+	text-align: center;
+    font-size: large;
+}
+
+.panel_footer {
+	margin: 15px 8px 15px 8px;
+}
+
+.panel_footer span{
+	font-size: 14px;
+	vertical-align: middle;
+}
+
+#add_leerling_button {
+	display: inline-block;
+}
+
+.legenda {
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 50px;
+	margin-right: 10px;
+	padding: 13px;
+}
+
+.legenda-grey {
+	background-color: #f5f5f5;
+}
+
+.legenda-yellow {
+	background-color: #fcf8e3;	
+}
+
+.legenda-green {
+	background-color: #dff0d8;	
+}
+
