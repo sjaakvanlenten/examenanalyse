@@ -1,9 +1,8 @@
 <?php
 
 // checken of naam overeenkomt met een naam uit database
-function addUser($gegevens) {
+function addUser($gegevens, $db) {
 
-    require(ROOT_PATH . "includes/database_connect.php");
 
     //checkt of tussenvoegsel leeg is gelaten, zoja dan wordt NULL ingevoerd.
     if($gegevens["tussenvoegsel"] == ""){
@@ -35,26 +34,32 @@ function addUser($gegevens) {
                             ':role' => $gegevens["role"],
                         ));
     } catch (Exception $e){
-        $_SESSION['message'] = "Gebruiker kon niet worden toegevoegd.";
+        $_SESSION['message'] = "Er ging wat fout.";
+        $db->rollBack();
+        header('Location: '.$_SERVER['REQUEST_URI']);
         exit;
     }   
 }
 
 //leraar toevoegen
-function addTeacher($emailadres, $docent_afkorting) {
-
+function addTeacher($gegevens) 
+{
     require(ROOT_PATH . "includes/database_connect.php");
 
+    $db->beginTransaction();
+    addUser($gegevens, $db);
     //check gebruiker_id voor het toevoegen van afkorting in tabel docent.
     try {   
         $checkGebruikerId = $db->prepare("
             SELECT gebruiker_id
             FROM gebruiker
             WHERE emailadres = ?");
-        $checkGebruikerId->bindParam(1,$emailadres);
+        $checkGebruikerId->bindParam(1,$gegevens["emailadres"]);
         $checkGebruikerId->execute();
     } catch (Exception $e){
         $_SESSION['message'] = "Email adres kon niet worden gecontroleerd.";
+        $db->rollBack();
+        header('Location: '.$_SERVER['REQUEST_URI']);
         exit;
     }
 
@@ -70,13 +75,16 @@ function addTeacher($emailadres, $docent_afkorting) {
             ) 
             VALUES (?, ?) ");
         $addAfkorting->bindParam(1,$gebruiker_id);
-        $addAfkorting->bindParam(2,$docent_afkorting);
+        $addAfkorting->bindParam(2,$gegevens["docent_afkorting"]);
         $addAfkorting->execute();
         $_SESSION['message-success'] = "Docent is toegevoegd!";
     } catch (Exception $e) {
         $_SESSION['message'] = "Docent kon niet worden toegevoegd aan de database.";
+        $db->rollBack();
+        header('Location: '.$_SERVER['REQUEST_URI']);
         exit;
     }
+    $db->commit();
 }
 
 function Authenticate($user) {
@@ -101,22 +109,43 @@ function Authenticate($user) {
 
 
 //checken of emailadres in gebruik is
-function checkIfUserExists($email){
+function checkIfUserExists($email, $id = NULL)
+{
     require(ROOT_PATH . "includes/database_connect.php");
-    try {
-        $results = $db->prepare("
-            SELECT *
-            FROM gebruiker
-            WHERE emailadres = ?");
-        $results->bindParam(1,$email);
-        $results->execute();
-    } catch (Exception $e) {
-        $_SESSION['message'] = "Data could not be retrieved from the database.";
-        exit;
+    
+    if(isset($id)) {
+        try {
+            $results = $db->prepare("
+                SELECT *
+                FROM gebruiker G
+                INNER JOIN leerling L
+                ON G.gebruiker_id=L.gebruiker_id
+                WHERE G.emailadres = ? OR L.leerling_id = ?
+                ");
+            $results->bindParam(1,$email);
+            $results->bindParam(2,$id);
+            $results->execute();
+        } catch (Exception $e) {
+            $_SESSION['message'] = "Er ging wat fout, probeer het nog eens.";
+            exit;
+        }
+    } else {
+        try {
+            $results = $db->prepare("
+                SELECT *
+                FROM gebruiker 
+                WHERE emailadres = ?
+                ");
+            $results->bindParam(1,$email);
+            $results->execute();
+        } catch (Exception $e) {
+            $_SESSION['message'] = "Er ging wat fout, probeer het nog eens.";
+            exit;
+        }        
     }
 
     $match = $results->fetch(PDO::FETCH_ASSOC);
-    
+
     if($match == ""){
  
         return false;
@@ -249,19 +278,24 @@ function checkRole($userid){
 
 
 //student toevoegen
-function addStudent($emailadres, $leerling_id, $klas){
-     require(ROOT_PATH . "includes/database_connect.php");
+function addStudent($leerling_gegevens)
+{
+    require(ROOT_PATH . "includes/database_connect.php");
 
+    $db->beginTransaction(); 
+    addUser($leerling_gegevens, $db);
     //vind gebruikers_id doormiddel van emailadres.
     try {   
         $checkGebruikerId = $db->prepare("
             SELECT gebruiker_id
             FROM gebruiker
             WHERE emailadres = ?");
-        $checkGebruikerId->bindParam(1,$emailadres);
+        $checkGebruikerId->bindParam(1,$leerling_gegevens["emailadres"]);
         $checkGebruikerId->execute();
     } catch (Exception $e){
-        echo $error_message = "Email adres kon niet worden gecontroleerd.";
+        $_SESSION['message'] = "Email adres kon niet worden gecontroleerd.";
+        $db->rollBack();
+        header('Location: '.$_SERVER['REQUEST_URI']);
         exit;
     }
 
@@ -274,10 +308,12 @@ function addStudent($emailadres, $leerling_id, $klas){
             SELECT klas_id
             FROM klas
             WHERE klas = ?");
-        $checkKlasId->bindParam(1,$klas);
+        $checkKlasId->bindParam(1,$leerling_gegevens["klas"]);
         $checkKlasId->execute();
     } catch (Exception $e) {
-        echo $error_message = "Klas id kan niet worden gecontroleerd.";
+        $_SESSION['message'] = "Klas id kan niet worden gecontroleerd.";
+        $db->rollBack();
+        header('Location: '.$_SERVER['REQUEST_URI']);
         exit;
     }
 
@@ -295,14 +331,17 @@ function addStudent($emailadres, $leerling_id, $klas){
             ) 
             VALUES (?, ?, ?) ");
         $addLeerling_Id->bindParam(1,$gebruiker_id);
-        $addLeerling_Id->bindParam(2,$leerling_id);
+        $addLeerling_Id->bindParam(2,$leerling_gegevens["leerling_id"]);
         $addLeerling_Id->bindParam(3,$klas_id);
         $addLeerling_Id->execute();
         $_SESSION['message-success'] = "Leerling is toegevoegd!";
     } catch (Exception $e) {
-        echo $error_message = "Leerling kon niet worden toegevoegd aan de database.";
+        $_SESSION['message'] = "Leerling kon niet worden toegevoegd aan de database.";
+        $db->rollBack();
+        header('Location: '.$_SERVER['REQUEST_URI']);
         exit;
     }
+    $db->commit();
 }
 
 function getLeerlingenKlas($klas) {
@@ -414,6 +453,34 @@ function deleteStudent($gebruiker_id) {
             WHERE gebruiker_id = ?
             ");
         $stmt->bindParam(1,$gebruiker_id);
+        $stmt->execute();
+    } catch (Exception $e){
+        $_SESSION['message'] = "Er ging wat fout.";
+        $db->rollBack();
+        header('Location: '.$_SERVER['REQUEST_URI']);
+        exit;
+    }
+
+    try {   
+        $stmt = $db->prepare("
+            DELETE FROM score
+            WHERE gebruiker_id = ?
+            ");
+        $stmt->bindParam(1,$gebruiker["gebruiker_id"]);
+        $stmt->execute();
+    } catch (Exception $e){
+        $_SESSION['message'] = "Er ging wat fout.";
+        $db->rollBack();
+        header('Location: '.$_SERVER['REQUEST_URI']);
+        exit;
+    }
+
+    try {   
+        $stmt = $db->prepare("
+            DELETE FROM resultaat
+            WHERE gebruiker_id = ?
+            ");
+        $stmt->bindParam(1,$gebruiker["gebruiker_id"]);
         $stmt->execute();
     } catch (Exception $e){
         $_SESSION['message'] = "Er ging wat fout.";

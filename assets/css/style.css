@@ -103,6 +103,11 @@ thead {
 	border-bottom: 2px solid #ddd;
 	font-size: 18px;
 }
+
+.btn {
+	font-weight: normal;
+}
+
 .gebruiker-gegevens > tbody > tr > td,
 .gebruiker-gegevens > tbody > tr > th {
 	border: 0px;
@@ -140,10 +145,6 @@ thead {
 	color: #222;
 }
 
-input[type="file"] {
-    display: none;
-}
-
 .custom-file-upload {
     border: 1px solid #ccc;
     display: inline-block;
@@ -157,18 +158,25 @@ input[type="file"] {
     font-size: large;
 }
 
-.panel_footer {
-	margin: 15px 8px 15px 8px;
-}
-
-.panel_footer span{
+.panel-footer span{
 	font-size: 14px;
 	vertical-align: middle;
 }
 
-#add_leerling_button {
+.panel-footer form {
+	margin: 0;
+}
+.panel-footer .btn {
 	display: inline-block;
 }
+
+.panel-footer .excel_fileupload {
+	display: inline-block;
+	margin-left: 50px;
+}
+.excel_fileupload input[type="file"] {
+    display: none;
+} 
 
 .legenda {
 	display: inline-block;
@@ -179,11 +187,11 @@ input[type="file"] {
 }
 
 .legenda-grey {
-	background-color: #f5f5f5;
+	background-color: #f2dede;
 }
 
 .legenda-yellow {
-	background-color: #fcf8e3;	
+	background-color: #d9edf7;	
 }
 
 .legenda-green {

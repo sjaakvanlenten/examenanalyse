@@ -184,6 +184,34 @@ function deleteKlas($klas_id) {
             header('Location: '.$_SERVER['REQUEST_URI']);
             exit;
         }
+
+        try {   
+            $stmt = $db->prepare("
+                DELETE FROM score
+                WHERE gebruiker_id = ?
+                ");
+            $stmt->bindParam(1,$gebruiker["gebruiker_id"]);
+            $stmt->execute();
+        } catch (Exception $e){
+            $_SESSION['message'] = "Er ging wat fout.";
+            $db->rollBack();
+            header('Location: '.$_SERVER['REQUEST_URI']);
+            exit;
+        }
+
+        try {   
+            $stmt = $db->prepare("
+                DELETE FROM resultaat
+                WHERE gebruiker_id = ?
+                ");
+            $stmt->bindParam(1,$gebruiker["gebruiker_id"]);
+            $stmt->execute();
+        } catch (Exception $e){
+            $_SESSION['message'] = "Er ging wat fout.";
+            $db->rollBack();
+            header('Location: '.$_SERVER['REQUEST_URI']);
+            exit;
+        }
     }
 
     try {   
@@ -193,12 +221,12 @@ function deleteKlas($klas_id) {
         ");
     $stmt->bindParam(1,$klas_id);
     $stmt->execute();
-} catch (Exception $e){
-    $_SESSION['message'] = "Er ging wat fout.";
-    $db->rollBack();
-    header('Location: '.$_SERVER['REQUEST_URI']);
-    exit;
-}
+    } catch (Exception $e){
+        $_SESSION['message'] = "Er ging wat fout.";
+        $db->rollBack();
+        header('Location: '.$_SERVER['REQUEST_URI']);
+        exit;
+    }
 
     $db->commit();
     $_SESSION["message-success"] = "Klas verwijdert";
@@ -209,7 +237,13 @@ function deleteKlas($klas_id) {
 function getNiveauFromStudent($gebruiker_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {   
-        $stmt = $db->prepare("SELECT K.niveau FROM klas K JOIN leerling L on L.klas_id = K.klas_id  WHERE L.gebruiker_id = ?");
+        $stmt = $db->prepare("
+            SELECT K.niveau 
+            FROM klas K 
+            JOIN leerling L 
+            on L.klas_id = K.klas_id  
+            WHERE L.gebruiker_id = ?
+            ");
         $stmt->bindParam(1, $gebruiker_id);
         $stmt->execute();
     } catch (Exception $e){

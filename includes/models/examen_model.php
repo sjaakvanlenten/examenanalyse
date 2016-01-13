@@ -1,8 +1,5 @@
 <?php
 
-//model wil zeggen: alles wat betrekking heeft tot bepaalde informatie ophalen uit de database en wat de verbanden zijn tussen die gegevens.
-// Hier komen dus alle functies te staan die die informatie ophalen uit de database of juist wat in de database zetten/updaten.
-// checken of examen bestaat
 function checkIfExamExists($examenvak, $examenjaar, $tijdvak, $niveau) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
@@ -90,7 +87,11 @@ function addExamQuestion($vraag, $maxscore, $categorie_id, $examen_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
 
-        $stmt = $db->prepare("INSERT INTO examenvraag (examen_id, examenvraag, maxscore, categorie_id ) VALUES (?, ?, ?, ?); ");
+        $stmt = $db->prepare("
+            INSERT INTO examenvraag 
+            (examen_id, examenvraag, maxscore, categorie_id ) 
+            VALUES (?, ?, ?, ?); 
+            ");
         $stmt->bindParam(1, $examen_id);
         $stmt->bindParam(2, $vraag);
         $stmt->bindParam(3, $maxscore);
@@ -108,7 +109,10 @@ function checkIfExamQuestionExists($vraag, $examen_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
 
-        $match = $db->prepare("SELECT * FROM examenvraag WHERE examen_id = ? AND examenvraag = ?");
+        $match = $db->prepare("
+            SELECT * FROM examenvraag 
+            WHERE examen_id = ? AND examenvraag = ?
+            ");
         $match->bindParam(1, $examen_id);
         $match->bindParam(2, $vraag);
         $match->execute();
@@ -129,8 +133,10 @@ function checkIfExamQuestionExists($vraag, $examen_id) {
 function getAllExams() {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
-
-        $match = $db->prepare("SELECT * FROM examen ORDER BY examenjaar, tijdvak, niveau");
+        $match = $db->prepare("
+            SELECT * FROM examen 
+            ORDER BY examenjaar, tijdvak, niveau
+            ");
         $match->execute();
     } catch (Exception $e) {
         $_SESSION['message'] = "Geen gegevens uit de database ontvangen.";
@@ -187,7 +193,10 @@ function updateNterm($nterm, $examen_id) {
 function updateExamQuestion($maxscore, $categorie, $examenvraag_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
-        $update = $db->prepare("UPDATE examenvraag SET maxscore = ?, categorie_id = ? WHERE examenvraag_id = ?");
+        $update = $db->prepare("
+            UPDATE examenvraag SET maxscore = ?, categorie_id = ? 
+            WHERE examenvraag_id = 
+            ?");
         $update->bindParam(1, $maxscore);
         $update->bindParam(2, $categorie);
         $update->bindParam(3, $examenvraag_id);
@@ -202,7 +211,12 @@ function updateExamQuestion($maxscore, $categorie, $examenvraag_id) {
 function selectExamQuestions($examen_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
-        $match = $db->prepare("SELECT EV.examenvraag, EV.maxscore, C.categorieomschrijving FROM examenvraag EV JOIN categorie C ON C.categorie_id = EV.categorie_id WHERE examen_id = ?");
+        $match = $db->prepare("
+            SELECT EV.examenvraag, EV.maxscore, C.categorieomschrijving 
+            FROM examenvraag EV JOIN categorie C 
+            ON C.categorie_id = EV.categorie_id 
+            WHERE examen_id = ?
+            ");
         $match->bindParam(1, $examen_id);
         $match->execute();
     } catch (Exception $e) {
@@ -216,7 +230,12 @@ function selectExamQuestions($examen_id) {
 function getAllExamquestionCategories() {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
-        $match = $db->prepare("SELECT categorie_id, count(categorie_id) FROM examenvraag GROUP BY categorie_id ORDER BY 2 DESC");
+        $match = $db->prepare("
+            SELECT categorie_id, count(categorie_id) 
+            FROM examenvraag 
+            GROUP BY categorie_id 
+            ORDER BY 2 DESC
+            ");
         $match->execute();
     } catch (Exception $e) {
         $_SESSION['message'] = "Geen gegevens uit de database ontvangen.";
@@ -261,7 +280,8 @@ function getAllExamResultsWithNterm($gebruiker_id) {
 function getExamQuestionResults($gebruiker_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
-        $results = $db->prepare(" SELECT E.examenvak, E.examenjaar,E.tijdvak, ROUND(100 * SUM(S.vraag_score) / SUM(EV.maxscore),0), C.categorieomschrijving, E.examen_id
+        $results = $db->prepare("
+        SELECT E.examenvak, E.examenjaar,E.tijdvak, ROUND(100 * SUM(S.vraag_score) / SUM(EV.maxscore),0), C.categorieomschrijving, E.examen_id
         FROM categorie C
         JOIN examenvraag EV ON EV.categorie_id = C.categorie_id
          JOIN examen E ON EV.examen_id = E.examen_id
@@ -294,7 +314,8 @@ function getExamQuestionResults($gebruiker_id) {
 function getExamQuestionResultsFromExamen($gebruiker_id, $examen_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
-        $results = $db->prepare(" SELECT E.examenvak, E.examenjaar,E.tijdvak, ROUND(100 * SUM(S.vraag_score) / SUM(EV.maxscore),0), C.categorieomschrijving, E.examen_id
+        $results = $db->prepare("
+        SELECT E.examenvak, E.examenjaar,E.tijdvak, ROUND(100 * SUM(S.vraag_score) / SUM(EV.maxscore),0), C.categorieomschrijving, E.examen_id
         FROM categorie C
         JOIN examenvraag EV ON EV.categorie_id = C.categorie_id
          JOIN examen E ON EV.examen_id = E.examen_id
@@ -326,8 +347,13 @@ function getExamQuestionResultsFromExamen($gebruiker_id, $examen_id) {
 function getAllExamQuestionsWithCategorie($j) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
-        $match = $db->prepare("SELECT E.examenvak, E.examenjaar, E.tijdvak, EV.examenvraag FROM examenvraag EV JOIN examen E on E.examen_id = EV.examen_id WHERE categorie_id = ? ORDER BY RAND() LIMIT 5
-");
+        $match = $db->prepare("
+            SELECT E.examenvak, E.examenjaar, E.tijdvak, EV.examenvraag 
+            FROM examenvraag EV JOIN examen E 
+            on E.examen_id = EV.examen_id
+            WHERE categorie_id = ? 
+            ORDER BY RAND() LIMIT 5
+        ");
         $match->bindParam(1, $j);
         $match->execute();
     } catch (Exception $e) {
@@ -341,7 +367,11 @@ function getAllExamQuestionsWithCategorie($j) {
 function getAllCreatedExamsWithExamId($j) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
-        $match = $db->prepare("SELECT * FROM resultaat WHERE examen_id = ?");
+        $match = $db->prepare("
+            SELECT * 
+            FROM resultaat 
+            WHERE examen_id = ?
+        ");
         $match->bindParam(1, $j);
         $match->execute();
     } catch (Exception $e) {

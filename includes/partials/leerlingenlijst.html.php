@@ -7,10 +7,10 @@ foreach($leerlingen as $leerling) {
 		echo '<tr class="success">';
 	}
 	else if ($leerlingdata['temp_mail'] == 1) {
-		echo '<tr class="warning">';
+		echo '<tr class="info">';
 	}
 	else {
-		echo '<tr class="active">';	
+		echo '<tr class="danger">';	
 	}
 	foreach($leerling as $key => $value) {
 		if($key != 'gebruiker_id') {
@@ -29,7 +29,7 @@ foreach($leerlingen as $leerling) {
 	
 		echo
 			'<td>';
-			if($leerlingdata["account_activated"] != 1) {
+			if($leerlingdata["account_activated"] != 1 && $leerlingdata["temp_mail"] != 1) {
 				echo '
 				<button type="button" class="btn btn-info btn-md ajax_mail" id="ajax' . $leerling["leerling_id"] . '">
 					Verzend Wachtwoord

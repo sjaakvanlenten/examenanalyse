@@ -38,11 +38,11 @@ if(!isset($_GET['klas'])) {
                 	{
                 		$false_email = [ $leerling_gegevens['emailadres'] ];
                 	}
-		            else if(checkIfUserExists($leerling_gegevens['emailadres']) === FALSE) {
+		            else if(checkIfUserExists($leerling_gegevens['emailadres'],$leerling_gegevens['leerling_id']) === FALSE) {
 		                //email adres niet in gebruik, dus gebruiker kan worden toegevoegd.
 		                // gegevens inserten
-		                addUser($leerling_gegevens);		                
-		                addStudent($leerling_gegevens["emailadres"], $leerling_gegevens["leerling_id"], $leerling_gegevens["klas"]);
+		                		                
+		                addStudent($leerling_gegevens, $leerling_gegevens["emailadres"], $leerling_gegevens["leerling_id"], $leerling_gegevens["klas"]);
 		            } else {
 		                //email adres in gebruik gebruiker wordt op de hoogte gesteld dat dit email adres bezet is.
 		              	$_SESSION['message'] = "Email adres " . $leerling_gegevens['emailadres'] . " is al in gebruik";
@@ -104,8 +104,7 @@ $pagename = "klassen";
 						<div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><?php echo 'Klas: ' . $klas ?></h3>
-                            </div>
-                            
+                            </div>                            
 								<table class="table">
 								    <thead>
 								      <tr>
@@ -125,7 +124,7 @@ $pagename = "klassen";
 									</tbody>
 								</table>
 					    		<!-- Button trigger leerling toevoegen modal -->
-					    		<div class="panel_footer">
+					    		<div class="panel-footer">
 									<button type="button" id="add_leerling_button" class="btn btn-default btn-md" data-toggle="modal" data-target="#leerling-toevoegen">
 									  Leerling Toevoegen
 									</button>
@@ -147,8 +146,7 @@ $pagename = "klassen";
 								<!-- Leerling toevoegen Modal -->
 								<?php					
 									include(ROOT_PATH . "includes/partials/modals/leerling_toevoegen_modal.html.php");
-								?>
-						
+								?>						
 						</div>
 					</div>
 				</div>
