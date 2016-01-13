@@ -9,7 +9,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     //****************  EXCEL BESTAND IMPORTEREN ******************//
 	if(isset($_FILES["excel_leerlingen"])) {
 	$upload = importLeerlingenExcelFile($_FILES["excel_leerlingen"]);
-	$exceldata = importLeerlingenWithExcel();
+	$exceldata = importLeerlingenWithExcel($upload);
 	$excelheaders  = array_shift($exceldata);
 	$leerlingendata = rebuildExcelClassDataArray($exceldata, $excelheaders);
 	}

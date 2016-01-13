@@ -58,14 +58,14 @@ function importLeerlingenExcelFile($file)
         $_SESSION['message'] = "Upload een geldig bestand";
     }
     finfo_close($finfo);
-    return TRUE;   
+    return $filename;   
 }
 
-function importLeerlingenWithExcel()  
+function importLeerlingenWithExcel($upload)  
 {
     require_once(ROOT_PATH . "includes/libs/PHPExcel_1.8.0/Classes/PHPExcel/IOFactory.php");
 
-    $inputFileName = '../Havo-leerlingenlijst_JF_totaal.xlsx';
+    $inputFileName = '../uploaded_files/' . $upload;
 
     //  Read Excel workbook
     try {
