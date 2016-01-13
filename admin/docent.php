@@ -37,8 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $wachtwoord = password_hash($generated_password, PASSWORD_BCRYPT);
                     $email_code = md5($voornaam + microtime());
 
-                    //returned $generated_password
-
                     $gegevens = [
                         "voornaam" => $voornaam,
                         "tussenvoegsel" => $tussenvoegsel,
@@ -54,16 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     //checken of email en afkorting uniek zijn
                     if (checkIfUserExists($gegevens["emailadres"]) === FALSE) {
-                        //email adres niet in gebruik, dus gebruiker kan worden toegevoegd.
-                        // gegevens inserten
-                        addUser($gegevens);
-                        addTeacher($gegevens["emailadres"], $gegevens["docent_afkorting"]);
-                        //nog niet af!!
+                        //leraar toevoegen
+                        addTeacher($gegevens);
                         //wachtwoord mailen naar gebruiker
                         $mail_content = createTempPasswordMail($gegevens);
                         sendMail($mail_content);
                     } else {
-                        //email adres in gebruik gebruiker wordt op de hoogte gesteld dat dit email adres bezet is.
+                        //email adres is al in gebruik.
                         $_SESSION['message'] = "Email adres is al in gebruik";
                     }
                 }

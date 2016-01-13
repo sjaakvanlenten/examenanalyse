@@ -93,7 +93,6 @@ $pagename = "klassen";
 ?>
 
 <?php include(ROOT_PATH . "includes/templates/header.php") ?>
-	<?php include(ROOT_PATH . "includes/templates/sidebar-admin.php");?>
 	<div class="wrapper">
 		<?php include(ROOT_PATH . "includes/templates/sidebar-admin.php"); ?>
 		<div class="page-wrapper">
@@ -103,61 +102,55 @@ $pagename = "klassen";
 						<div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Klassenlijst</h3>
-                            </div>
-                            <div class="panel-body">
-								<table class="table gebruiker-gegevens">
-								    <thead>
-								      <tr>
-								        <th>Klas</th>
-								        <th>Examenjaar</th>
-								        <th>Niveau</th>
-								        <th>Docent</th>
-								        <th>Aantal Leerlingen</th>
-								      </tr>
-								    </thead>
-								    <tbody>					    	
-								    	<?php include(ROOT_PATH . "includes/partials/klassenlijst.html.php") ?>
-								    	<tr>
-								    		<td style="border: 0;">
-								    			<!-- Button trigger leerling toevoegen modal -->
-												<button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#klas-toevoegen">
-												  Klas Toevoegen
-												</button>
-											</td>
-											<td style="border: 0;">
-												<form method="post" enctype="multipart/form-data">
-													<label for="file-upload" class="btn btn-default btn-lg">
-													    Importeer Excel Bestand
-													</label>
-													<input type="file" id="file-upload" class="btn btn-default btn-lg" name="excel_leerlingen" onchange="this.form.submit()">							
-									        	</form>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-
-									<!-- Klas bewerken/verwijderen Modal -->
-									<?php
-										foreach ($klassenlijst as $klas) {
-											foreach ($klas as $key => $value) {
-												include(ROOT_PATH . "includes/partials/modals/klas_bewerk_modal.html.php");
-											}
+                            </div>                        
+							<table class="table">
+							    <thead>
+							      <tr>
+							        <th>Klas</th>
+							        <th>Examenjaar</th>
+							        <th>Docent</th>
+							        <th>Niveau</th>
+							        <th>Aantal Leerlingen</th>
+							      </tr>
+							    </thead>
+							    <tbody>					    	
+							    	<?php include(ROOT_PATH . "includes/partials/klassenlijst.html.php") ?>
+								</tbody>
+							</table>
+							<div class="panel-footer">
+				    			<!-- Button trigger leerling toevoegen modal -->
+								<button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#klas-toevoegen">
+								  Klas Toevoegen
+								</button>
+								<div class="excel_fileupload">
+								<form method="post" enctype="multipart/form-data">
+									<label for="file-upload" class="btn btn-default btn-md">
+									    Importeer Excel Bestand
+									</label>
+									<input type="file" id="file-upload" class="btn btn-default btn-md" name="excel_leerlingen" onchange="this.form.submit()">							
+					        	</form>
+					        	</div>
+							</div>
+								<!-- Klas bewerken/verwijderen Modal -->
+								<?php
+									foreach ($klassenlijst as $klas) {
+										foreach ($klas as $key => $value) {
+											include(ROOT_PATH . "includes/partials/modals/klas_bewerk_modal.html.php");
 										}
-									?>
+									}
+								?>
 
-									<!-- Klas Toevoegen Modal -->
-									<?php					
-										include(ROOT_PATH . "includes/partials/modals/klas_toevoegen_modal.html.php");
-									?>
+								<!-- Klas Toevoegen Modal -->
+								<?php					
+									include(ROOT_PATH . "includes/partials/modals/klas_toevoegen_modal.html.php");
+								?>
 
-									<!-- Excel Klassenlijst Modal -->
-									<?php
-										if(isset($upload)) {
-											include(ROOT_PATH . "includes/partials/modals/excel_klassenlijst_modal.html.php");
-										}
-									?>
-									
-								</div>
+								<!-- Excel Klassenlijst Modal -->
+								<?php
+									if(isset($upload)) {
+										include(ROOT_PATH . "includes/partials/modals/excel_klassenlijst_modal.html.php");
+									}
+								?>																	
 							</div>
 						</div>
 					</div>	

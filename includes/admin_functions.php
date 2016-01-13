@@ -16,8 +16,8 @@ function createTempPasswordMail($gegevens) {
             "address" => $gegevens["emailadres"],
             "name"    => "",
             "subject" => "Registratie",
-            "body"    => $header."Beste " . $gegevens["voornaam"] . " " . (empty($gegevens["tussenvoegsel"]) ? $gegevens["tussenvoegsel"]: $gegevens["tussenvoegsel"] . ' ') . $gegevens["achternaam"] . ",<br>" . 
-            "<br>Er is een account voor jou aangemaakt om in te loggen op examenanalsye.jfsgsites.nl. Hierbij je tijdelijke wachtwoord: " . $gegevens["wachtwoord"] . " Log in op de site om een wachtwoord in te stellen".$footer,
+            "body"    => $header."Beste " . $gegevens["voornaam"] . " " . (empty($gegevens["tussenvoegsel"]) ? $gegevens["tussenvoegsel"]: $gegevens["tussenvoegsel"] . ' ') . $gegevens["achternaam"] . ",<br><br>" . 
+            "Er is een account voor jou aangemaakt om in te loggen op examenanalyse.jfsgsites.nl.<br><br> Hierbij je tijdelijke wachtwoord: <b>" . $gegevens["wachtwoord"] . "</b><br>Log in op de site om een wachtwoord in te stellen".$footer,
             "altbody" => "wachtwoordregistratie",
         );
         return $mail_content;
