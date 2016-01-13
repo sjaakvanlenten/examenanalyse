@@ -65,7 +65,7 @@ function importLeerlingenWithExcel($upload)
 {
     require_once(ROOT_PATH . "includes/libs/PHPExcel_1.8.0/Classes/PHPExcel/IOFactory.php");
 
-    $inputFileName = '../uploaded_files/' . $upload;
+    $inputFileName = ROOT_PATH . 'uploaded_files/' . $upload;
 
     //  Read Excel workbook
     try {
