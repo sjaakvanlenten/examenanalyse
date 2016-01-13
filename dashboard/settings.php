@@ -1,5 +1,5 @@
 <?php
-require_once("/../includes/init.php");
+require_once(__DIR__ . "/../includes/init.php");
 checkSession();
 $user_data = getUserData($_SESSION['gebruiker_id']);
 //voor wachtwoord wijzigen

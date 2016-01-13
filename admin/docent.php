@@ -1,6 +1,5 @@
 <?php
-// de admin pagina, dit wordt natuurlijk nog uitgebreid.
-require_once("/../includes/init.php");
+require_once(__DIR__ . "/../includes/init.php");
 
 $pagename = "docenten";
 checkSession();
@@ -42,8 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         "tussenvoegsel" => $tussenvoegsel,
                         "achternaam" => $achternaam,
                         "emailadres" => $emailadres,
-                        "email_code" => $email_code,
-                        "generated_password" => $generated_password,
+                        "email_code" => $email_code,                      
                         "wachtwoord" => $wachtwoord,
                         "account_activated" => $account_activated,
                         "role" => $role,
@@ -55,7 +53,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         //leraar toevoegen
                         addTeacher($gegevens);
                         //wachtwoord mailen naar gebruiker
-                        $mail_content = createTempPasswordMail($gegevens);
+                        $mail_gegevens = [
+                            "emailadres" => $gegevens["emailadres"],
+                            "voornaam" => $gegevens["voornaam"],
+                            "tussenvoegsel" => $gegevens["tussenvoegsel"],
+                            "achternaam" => $gegevens["achternaam"],
+                            "wachtwoord" => $generated_password,
+                        ];
+                        $mail_content = createTempPasswordMail($mail_gegevens);
                         sendMail($mail_content);
                     } else {
                         //email adres is al in gebruik.
@@ -97,91 +102,86 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-<!DOCTYPE html>
-<html>
-    <body>
-        <?php include(ROOT_PATH . "includes/templates/header.php"); ?>
-        <div class="wrapper">
-            <?php include(ROOT_PATH . "includes/templates/sidebar-admin.php"); ?>
-            <div class="page-wrapper">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Overzicht docenten</h3>
-                                </div>
-                                <div class="panel-body">
-                                    <?php
-                                    $leraargegevens = viewTeacher();
-                                    if (empty($leraargegevens)) {
-                                        echo"Het lijkt er op dat er nog geen docenten bestaan, klik op \"Toevoegen\" om een docent toe te voegen";
-                                    } else {
-                                        echo"Hieronder ziet u een overzicht van alle docenten. Hier kunt u deze bewerken of verwijderen. Ook kunt u een nieuwe docenten toevoegen door op de knop \"Toevoegen \" te klikken";
-                                    }
-                                    ?>
-                                </div>
-                            </div>
+<?php include(ROOT_PATH . "includes/templates/header.php"); ?>
+<div class="wrapper">
+    <?php include(ROOT_PATH . "includes/templates/sidebar-admin.php"); ?>
+    <div class="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Overzicht docenten</h3>
                         </div>
-                        <div class="col-sm-12">
-                            <div class="panel panel-default">
-                                <?php
-                                    $leraargegevens = viewTeacher();
-                                    $t = 0;
-                                    $x = count($leraargegevens);
-                                foreach ($leraargegevens as $leraargegeven) {
-                                    if ($t == 0) {
-                                        ?>
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-hover">
-                                                <tr>
-                                                    <td class="active"><b>Voornaam</b></td>
-                                                    <td class="active"><b>Tussenvoegsel</b></td>
-                                                    <td class="active"><b>Achternaam</b></td>
-                                                    <td class="active"><b>Afkorting</b></td>
-                                                    <td class="active"><b>Email adres</b></td>
-                                                    <td class="active"></td>
-                                                </tr>
-                                <?php
+                        <div class="panel-body">
+                            <?php
+                            $leraargegevens = viewTeacher();
+                            if (empty($leraargegevens)) {
+                                echo"Het lijkt er op dat er nog geen docenten bestaan, klik op \"Toevoegen\" om een docent toe te voegen";
+                            } else {
+                                echo"Hieronder ziet u een overzicht van alle docenten. Hier kunt u deze bewerken of verwijderen. Ook kunt u een nieuwe docenten toevoegen door op de knop \"Toevoegen \" te klikken";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <?php
+                        $leraargegevens = viewTeacher();
+                        $t = 0;
+                        $x = count($leraargegevens);
+                        foreach ($leraargegevens as $leraargegeven) {
+                            if ($t == 0) {
+                                ?>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <tr>
+                                            <td class="active"><b>Voornaam</b></td>
+                                            <td class="active"><b>Tussenvoegsel</b></td>
+                                            <td class="active"><b>Achternaam</b></td>
+                                            <td class="active"><b>Afkorting</b></td>
+                                            <td class="active"><b>Email adres</b></td>
+                                            <td class="active"></td>
+                                        </tr>
+                                        <?php
                                     }
                                     $t++;
-                                ?>
-                                                <tr>
-                                                    <td><?php echo $leraargegeven['voornaam']; ?></td>
-                                                    <td><?php
-                                                        $tussenvoegsel = $leraargegeven['tussenvoegsel'];
-                                                        if ($tussenvoegsel != NULL) {
-                                                            echo $tussenvoegsel;
-                                                        } else {
-                                                            echo "-";
-                                                        }
-                                                        ?></td>
-                                                    <td><?php echo $leraargegeven['achternaam']; ?></td>
-                                                    <td><?php echo $leraargegeven['docent_afk']; ?></td>
-                                                    <td><?php echo $leraargegeven['emailadres']; ?></td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $leraargegeven['gebruiker_id'];?>">Bewerken</button>
-                                                    </td>
-                                                </tr>
-                                <?php
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $leraargegeven['voornaam']; ?></td>
+                                        <td><?php
+                                            $tussenvoegsel = $leraargegeven['tussenvoegsel'];
+                                            if ($tussenvoegsel != NULL) {
+                                                echo $tussenvoegsel;
+                                            } else {
+                                                echo "-";
+                                            }
+                                            ?></td>
+                                        <td><?php echo $leraargegeven['achternaam']; ?></td>
+                                        <td><?php echo $leraargegeven['docent_afk']; ?></td>
+                                        <td><?php echo $leraargegeven['emailadres']; ?></td>
+                                        <td>
+                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#<?php echo $leraargegeven['gebruiker_id']; ?>">Bewerken</button>
+                                        </td>
+                                    </tr>
+                                    <?php
                                     if ($t == $x) {
-                                ?>
-                                            </table>
-                                        </div>
-                                <?php
-                                    }
-                                }
-                                ?>
-                                <div class="panel-footer">
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#docenttoevoegen">Toevoegen</button>
+                                        ?>
+                                    </table>
                                 </div>
-                                <?php include(ROOT_PATH . "includes/partials/modals/docent_bewerk_modal.html.php");?>
-                            </div>
+                                <?php
+                            }
+                        }
+                        ?>
+                        <div class="panel-footer">
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#docenttoevoegen">Toevoegen</button>
                         </div>
+                        <?php include(ROOT_PATH . "includes/partials/modals/docent_bewerk_modal.html.php"); ?>
                     </div>
                 </div>
             </div>
         </div>
-        <?php include(ROOT_PATH . "includes/templates/footer.php");?>
-    </body>
-</html>
+    </div>
+</div>
+<?php include(ROOT_PATH . "includes/templates/footer.php"); ?>

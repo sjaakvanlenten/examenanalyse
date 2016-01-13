@@ -1,5 +1,5 @@
 <?php
-
+header('Content-Type: text/html; charset=utf-8');
 $data = getUserData($_SESSION['gebruiker_id']);
 $gebruikersnaam = $data['voornaam']." ".$data['tussenvoegsel']." ".$data['achternaam'];
 include(ROOT_PATH . "includes/partials/modals/about_modal.html.php"); 
@@ -10,7 +10,7 @@ include(ROOT_PATH . "includes/partials/modals/about_modal.html.php");
 	<head>
 		<title>Examenanalyse</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html" charset="utf-8">
 		<meta name="theme-color" content="#1BBC9B">
 		<link rel="stylesheet" href="../assets/css/bootstrap.css" type="text/css" media="all">
 		<link rel="stylesheet" href="../assets/css/style.css" type="text/css" media="all">
