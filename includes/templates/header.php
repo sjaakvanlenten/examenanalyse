@@ -2,7 +2,6 @@
 header('Content-Type: text/html; charset=utf-8');
 $data = getUserData($_SESSION['gebruiker_id']);
 $gebruikersnaam = $data['voornaam']." ".$data['tussenvoegsel']." ".$data['achternaam'];
-include(ROOT_PATH . "includes/partials/modals/about_modal.html.php"); 
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +36,7 @@ include(ROOT_PATH . "includes/partials/modals/about_modal.html.php");
 		<link rel="icon" href="../images/favicon/favicon.ico" type="image/x-icon" />
 	</head>
 	<body>
+		<?php include(ROOT_PATH . "includes/partials/modals/about_modal.html.php"); ?>
 		<?php include(ROOT_PATH . "includes/partials/message.html.php"); ?>
 		<div class="container-header">
 			<div class="row">
