@@ -100,13 +100,14 @@ $pagename = "klassen";
                         <div class="panel-heading">
                             <h3 class="panel-title">Klassenlijst</h3>
                         </div>
+                        <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>Klas</th>
                                     <th>Examenjaar</th>
-                                    <th>Docent</th>
                                     <th>Niveau</th>
+                                    <th>Docent</th>
                                     <th>Aantal Leerlingen</th>
                                 </tr>
                             </thead>
@@ -114,6 +115,7 @@ $pagename = "klassen";
 <?php include(ROOT_PATH . "includes/partials/klassenlijst.html.php") ?>
                             </tbody>
                         </table>
+                        </div>
                         <div class="panel-footer">
                             <!-- Button trigger leerling toevoegen modal -->
                             <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#klas-toevoegen">

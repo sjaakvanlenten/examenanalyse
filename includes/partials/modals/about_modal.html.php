@@ -16,8 +16,9 @@
                     <dd>Sjaak van Lenten</dd>
                     <dd>Bernard Mussche</dd>
                     <dd>Henri van de Munt</dd>
-                    <dt>FAQ:</dt>
-                    <dd>Heeft u een bug gevonden in deze applicatie? Meldt deze dan bij Dhr. Mourits. Hartelijk dank voor uw hulp en oplettendheid!</dd>
+                    <br>
+                    <dt></dt>
+                    <dd>Heb jij een bug gevonden in deze applicatie? Meldt deze dan bij Dhr. Mourits. Hartelijk dank voor uw hulp en oplettendheid!</dd>
                 </dl>
             </div>
             <div class="modal-footer">

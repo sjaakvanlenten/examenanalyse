@@ -6,7 +6,7 @@ checkSession();
 checkIfAdmin();
 
 $countleerling = countAllusersbyRole("1");
-$countdocent = countAllusersbyRole("2") + countAllusersbyRole("3");
+$countdocent = countAllusersbyRole("2");
 $countexams = count(getAllExams());
 $countgemaakteexams = countGemaakteExamens();
 ?>

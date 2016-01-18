@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $niveau
         ];
         //examengegevens opvragen
-        $examengegevens = checkIfExamExists($vak, $jaar, $tijdvak);
+        $examengegevens = checkIfExamExists($vak, $jaar, $tijdvak, $niveau);
 
         //nterm updaten als veranderd is
         if ($nterm != $examengegevens['nterm']) {

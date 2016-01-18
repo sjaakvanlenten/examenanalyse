@@ -92,7 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <meta name="theme-color" content="#1BBC9B">
         <link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css" media="all">
         <link rel="stylesheet" href="assets/css/style.css" type="text/css" media="all">
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="assets/js/pace.min.js"></script>
+        <link href="assets/css/loadbar.css" rel="stylesheet" />
     </head>
     <body class="alternative-body">
 <?php include(ROOT_PATH . "includes/partials/message.html.php"); ?>
@@ -102,12 +103,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <h1><center><b>Examenanalyse</b></center></h1>
                     <form method="post" action="">
                         <input type="text" class="form-control login-form" name="user" value="<?php if (isset($_POST['user'])) {
-    echo $_POST['user'];
-} ?>" placeholder="<?php if (isset($_POST['user'])) {
-    echo $_POST['user'];
-} else {
-    echo"Gebruikersnaam";
-} ?>"/>
+                                echo $_POST['user'];
+                            } ?>" placeholder="<?php if (isset($_POST['user'])) {
+                                echo $_POST['user'];
+                            } else {
+                                echo"Gebruikersnaam";
+                            } ?>"/>
                         <input type="password" class="form-control login-form" name="password" placeholder="Wachtwoord"/>
                         <p class="help-block"><a href="wachtwoord_vergeten.php">Wachtwoord vergeten?</a></p>
                         <input type="submit" class="btn btn-default" value="Inloggen" />
