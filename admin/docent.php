@@ -117,9 +117,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <?php
                             $leraargegevens = viewTeacher();
                             if (empty($leraargegevens)) {
-                                echo"Het lijkt er op dat er nog geen docenten bestaan, klik op \"Toevoegen\" om een docent toe te voegen";
+                                echo"Het lijkt er op dat er nog geen docenten bestaan, klik op \"Toevoegen\" om een docent toe te voegen. Er wordt gelijk een wachtwoord naar het desbetreffende emailadres verzonden.";
                             } else {
-                                echo"Hieronder ziet u een overzicht van alle docenten. Hier kunt u deze bewerken of verwijderen. Ook kunt u een nieuwe docenten toevoegen door op de knop \"Toevoegen \" te klikken";
+                                echo"Hieronder ziet u een overzicht van alle docenten. Hier kunt u deze bewerken of verwijderen. Ook kunt u een nieuwe docenten toevoegen door op de knop \"Toevoegen \" te klikken. Er wordt gelijk een wachtwoord naar het desbetreffende emailadres verzonden.";
                             }
                             ?>
                         </div>
@@ -128,7 +128,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-sm-12">
                     <div class="panel panel-default">
                         <?php
-                        $leraargegevens = viewTeacher();
                         $t = 0;
                         $x = count($leraargegevens);
                         foreach ($leraargegevens as $leraargegeven) {
@@ -148,14 +147,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     }
                                     $t++;
                                     ?>
-                                    <tr>
+                                    <tr <?php if($leraargegeven['account_activated']  == 1){echo"class='success'";}else{echo"class='danger'";}?>>
                                         <td><?php echo $leraargegeven['voornaam']; ?></td>
                                         <td><?php
                                             $tussenvoegsel = $leraargegeven['tussenvoegsel'];
                                             if ($tussenvoegsel != NULL) {
                                                 echo $tussenvoegsel;
                                             } else {
-                                                echo "-";
+                                                echo "";
                                             }
                                             ?></td>
                                         <td><?php echo $leraargegeven['achternaam']; ?></td>
@@ -176,6 +175,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         ?>
                         <div class="panel-footer">
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#docenttoevoegen">Toevoegen</button>
+                              <div class="legenda legenda-grey"></div><span>Account nog niet geactiveerd</span>
+                            <div class="legenda legenda-green"></div><span>Account geactiveerd</span>
                         </div>
                         <?php include(ROOT_PATH . "includes/partials/modals/docent_bewerk_modal.html.php"); ?>
                     </div>

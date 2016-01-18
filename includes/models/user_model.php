@@ -489,7 +489,7 @@ function viewTeacher() {
 
     try {
         $haalgebruikersop = $db->prepare("
-            SELECT docent.gebruiker_id, voornaam,  tussenvoegsel, achternaam, docent_afk, emailadres
+            SELECT docent.gebruiker_id, voornaam,  tussenvoegsel, achternaam, docent_afk, emailadres, account_activated
             FROM docent Join gebruiker ON docent.gebruiker_id = gebruiker.gebruiker_id
             WHERE role = 2
             ");
