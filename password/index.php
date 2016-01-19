@@ -1,6 +1,5 @@
 <?php
-require_once('/../config/config.php');
-require_once(ROOT_PATH . "includes/init.php");
+require_once(__DIR__ . "/../includes/init.php");
 session_start();
 if (!isset($_SESSION['gebruiker_id'])) {
 	if(!isset($_SESSION['account_activated'])) {

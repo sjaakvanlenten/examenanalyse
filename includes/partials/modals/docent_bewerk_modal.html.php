@@ -15,10 +15,10 @@
 							<tr><td><b>Afkorting:</b></td> <td><input type="text" class="form-control" name="afkorting"></td></tr>
 							<tr><td><b>Emailadres:</b></td> <td><input type="text" class="form-control" name="emailadres"></td></tr>
 						</table>
-					</form>
+					
 				</div>
 				<div class="modal-footer">
-					<input form="addteacher" type="submit" class="btn btn-default" name="submit_docent" value="Opslaan en verzenden">
+					<input form="addteacher" type="submit" class="btn btn-default" name="submit_docent" value="Opslaan en verzenden"></form>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Sluiten</button>
 				</div>
 			</div>
@@ -73,10 +73,10 @@
 									</tr>
 								</tbody>
 							</table>
-						</form>
+						
 					</div>
 				<div class="modal-footer">
-					<button form="form<?php echo $leraargegeven['gebruiker_id']; ?>" type="submit" class="btn btn-default" >Opslaan</button>
+					<button form="form<?php echo $leraargegeven['gebruiker_id']; ?>" type="submit" class="btn btn-default" >Opslaan</button></form>
 					<button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#verwijder<?php echo $leraargegeven['gebruiker_id']; ?>">Verwijder docent</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Sluiten</button>
 				</div>
