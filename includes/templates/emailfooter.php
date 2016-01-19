@@ -1,5 +1,5 @@
 <?php
-$footer = '</font></td>
+$footer = '<br></br><br></br>Met vriendelijke groet,<br></br>P. Mourits</font></td>
                 <td width="10%">&nbsp;</td>
               </tr>
               <tr>
