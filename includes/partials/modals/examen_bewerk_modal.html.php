@@ -82,10 +82,10 @@
 								</tr>
 							</tbody>
 						</table>
-					</form>
+					
 				</div>
 				<div class="modal-footer">
-					<input form="docenttoevoegen" type="submit" class="btn btn-default" name="submit_examen" value="Opslaan en verzenden">
+					<input form="docenttoevoegen" type="submit" class="btn btn-default" name="submit_examen" value="Opslaan en verzenden"></form>
 					<input type="button" class="btn btn-default" id="addmorePOIbutton" value="Voeg rij toe" onclick="insRow('')"/>
 					<input type="button" class="btn btn-danger" id="delPOIbutton" value="Verwijder rij" onclick="deleteRow('')"/>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Sluiten</button>
@@ -185,10 +185,10 @@
 								?>
 							</tbody>
 						</table>
-					</form>
+					
 				</div>
 				<div class="modal-footer">
-					<button form="form<?php echo $examengegeven['examen_id']; ?>" type="submit" class="btn btn-default" >Opslaan</button><!--[if IE]></form><![endif]-->
+					<button form="form<?php echo $examengegeven['examen_id']; ?>" type="submit" class="btn btn-default" >Opslaan</button></form>
 					<input type="button" class="btn btn-default" id="addmorePOIbutton" value="Voeg rij toe" onclick="insRow(<?php echo $examengegeven['examen_id'] ?>)"/>
 					<input type="button" class="btn btn-danger" id="delPOIbutton" value="Verwijder rij" onclick="deleteRow(<?php echo $examengegeven['examen_id'] ?>)"/>
 					<button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#verwijder<?php echo $examengegeven['examen_id']; ?>">Verwijder examen</button>

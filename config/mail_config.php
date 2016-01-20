@@ -2,7 +2,7 @@
 
 //instellingen voor de email module.
 
-require_once('/../includes/libs/PHPMailer-master/PHPMailerAutoload.php');
+require_once(__DIR__ . '/../includes/libs/PHPMailer-master/PHPMailerAutoload.php');
 
 $mail = new PHPMailer;
 

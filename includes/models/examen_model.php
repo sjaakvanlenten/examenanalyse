@@ -88,9 +88,9 @@ function addExamQuestion($vraag, $maxscore, $categorie_id, $examen_id) {
     try {
 
         $stmt = $db->prepare("
-            INSERT INTO examenvraag 
-            (examen_id, examenvraag, maxscore, categorie_id ) 
-            VALUES (?, ?, ?, ?); 
+            INSERT INTO examenvraag
+            (examen_id, examenvraag, maxscore, categorie_id )
+            VALUES (?, ?, ?, ?);
             ");
         $stmt->bindParam(1, $examen_id);
         $stmt->bindParam(2, $vraag);
@@ -110,7 +110,7 @@ function checkIfExamQuestionExists($vraag, $examen_id) {
     try {
 
         $match = $db->prepare("
-            SELECT * FROM examenvraag 
+            SELECT * FROM examenvraag
             WHERE examen_id = ? AND examenvraag = ?
             ");
         $match->bindParam(1, $examen_id);
@@ -134,7 +134,7 @@ function getAllExams() {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
         $match = $db->prepare("
-            SELECT * FROM examen 
+            SELECT * FROM examen
             ORDER BY examenjaar, tijdvak, niveau
             ");
         $match->execute();
@@ -194,8 +194,8 @@ function updateExamQuestion($maxscore, $categorie, $examenvraag_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
         $update = $db->prepare("
-            UPDATE examenvraag SET maxscore = ?, categorie_id = ? 
-            WHERE examenvraag_id = 
+            UPDATE examenvraag SET maxscore = ?, categorie_id = ?
+            WHERE examenvraag_id =
             ?");
         $update->bindParam(1, $maxscore);
         $update->bindParam(2, $categorie);
@@ -212,9 +212,9 @@ function selectExamQuestions($examen_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
         $match = $db->prepare("
-            SELECT EV.examenvraag, EV.maxscore, C.categorieomschrijving 
-            FROM examenvraag EV JOIN categorie C 
-            ON C.categorie_id = EV.categorie_id 
+            SELECT EV.examenvraag, EV.maxscore, C.categorieomschrijving
+            FROM examenvraag EV JOIN categorie C
+            ON C.categorie_id = EV.categorie_id
             WHERE examen_id = ?
             ");
         $match->bindParam(1, $examen_id);
@@ -231,9 +231,9 @@ function getAllExamquestionCategories() {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
         $match = $db->prepare("
-            SELECT categorie_id, count(categorie_id) 
-            FROM examenvraag 
-            GROUP BY categorie_id 
+            SELECT categorie_id, count(categorie_id)
+            FROM examenvraag
+            GROUP BY categorie_id
             ORDER BY 2 DESC
             ");
         $match->execute();
@@ -286,27 +286,28 @@ function getExamQuestionResults($gebruiker_id) {
         JOIN examenvraag EV ON EV.categorie_id = C.categorie_id
          JOIN examen E ON EV.examen_id = E.examen_id
          JOIN resultaat R ON EV.examen_id = R.examen_id
-         JOIN SCORE S ON S.examenvraag_id = EV.examenvraag_id
+         JOIN score S ON S.examenvraag_id = EV.examenvraag_id
 
         WHERE
             S.gebruiker_id = ?
 		AND
             R.gebruiker_id = ?
-        GROUP BY EV.examen_id , EV.categorie_id 
+        GROUP BY EV.examen_id , EV.categorie_id
         ORDER BY R.timestamp  , EV.categorie_id
         ");
         $results->bindParam(1, $gebruiker_id);
-		$results->bindParam(2, $gebruiker_id);
+        $results->bindParam(2, $gebruiker_id);
         $results->execute();
     } catch (Exception $e) {
         $_SESSION['message'] = "Data could not be retrieved from the database.";
+
         exit;
     }
     $results = $results->fetchAll();
     $newResult = [];
     foreach ($results as $row) {
-        $newResult[/*$row['examenvak'] . " " . */$row['examenjaar'] . " tijdvak " . $row['tijdvak']][$row[4]] = $row[3];
-        $newResult[/*$row['examenvak'] . " " . */$row['examenjaar'] . " tijdvak " . $row['tijdvak']]['examen_id'] = $row[5];
+        $newResult[/* $row['examenvak'] . " " . */$row['examenjaar'] . " tijdvak " . $row['tijdvak']][$row[4]] = $row[3];
+        $newResult[/* $row['examenvak'] . " " . */$row['examenjaar'] . " tijdvak " . $row['tijdvak']]['examen_id'] = $row[5];
     }
     return $newResult;
 }
@@ -320,7 +321,7 @@ function getExamQuestionResultsFromExamen($gebruiker_id, $examen_id) {
         JOIN examenvraag EV ON EV.categorie_id = C.categorie_id
          JOIN examen E ON EV.examen_id = E.examen_id
          JOIN resultaat R ON EV.examen_id = R.examen_id
-         JOIN SCORE S ON S.examenvraag_id = EV.examenvraag_id
+         JOIN score S ON S.examenvraag_id = EV.examenvraag_id
 
         WHERE
             S.gebruiker_id = ?
@@ -348,10 +349,10 @@ function getAllExamQuestionsWithCategorie($j) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
         $match = $db->prepare("
-            SELECT E.examenvak, E.examenjaar, E.tijdvak, EV.examenvraag 
-            FROM examenvraag EV JOIN examen E 
+            SELECT E.examenvak, E.examenjaar, E.tijdvak, EV.examenvraag
+            FROM examenvraag EV JOIN examen E
             on E.examen_id = EV.examen_id
-            WHERE categorie_id = ? 
+            WHERE categorie_id = ?
             ORDER BY RAND() LIMIT 5
         ");
         $match->bindParam(1, $j);
@@ -368,8 +369,8 @@ function getAllCreatedExamsWithExamId($j) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
         $match = $db->prepare("
-            SELECT * 
-            FROM resultaat 
+            SELECT *
+            FROM resultaat
             WHERE examen_id = ?
         ");
         $match->bindParam(1, $j);
@@ -397,6 +398,7 @@ function getCategorie() {
     $match = $match->fetchAll(PDO::FETCH_ASSOC);
     return $match;
 }
+
 function updateCategorie($categorie, $categorieomschrijving, $categorie_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
@@ -415,6 +417,7 @@ function updateCategorie($categorie, $categorieomschrijving, $categorie_id) {
         exit;
     }
 }
+
 function addCategorie($categorie, $categorieomschrijving) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
@@ -432,6 +435,7 @@ function addCategorie($categorie, $categorieomschrijving) {
         exit;
     }
 }
+
 function deleteCategorie($categorie_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
@@ -446,6 +450,7 @@ function deleteCategorie($categorie_id) {
         $_SESSION['message'] = "Verwijderen mislukt";
     }
 }
+
 function checkifCategoriehasQuestions($categorie_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
@@ -466,6 +471,7 @@ function checkifCategoriehasQuestions($categorie_id) {
         return false;
     }
 }
+
 function getScoreKlaseachCategorie($klas_id, $categorie_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
@@ -485,7 +491,8 @@ function getScoreKlaseachCategorie($klas_id, $categorie_id) {
     $results = $stmt->fetch(PDO::FETCH_ASSOC);
     return $results['result'];
 }
-function getScoreStudenteachCategorie ($gebruiker_id, $categorie_id){
+
+function getScoreStudenteachCategorie($gebruiker_id, $categorie_id) {
     require(ROOT_PATH . "includes/database_connect.php");
     try {
         $stmt = $db->prepare("
@@ -505,7 +512,6 @@ function getScoreStudenteachCategorie ($gebruiker_id, $categorie_id){
     return $results['result'];
 }
 
-
 function getExamen($niveau) {
 
     require(ROOT_PATH . "includes/database_connect.php");
@@ -519,6 +525,7 @@ function getExamen($niveau) {
         $stmt->bindParam(1, $niveau);
         $stmt->execute();
     } catch (Exception $e) {
+
         $_SESSION['message'] = "Er ging wat fout.";
         exit;
     }
@@ -540,6 +547,7 @@ function getExamenvragen($examen_id) {
         $stmt->bindParam(1, $examen_id);
         $stmt->execute();
     } catch (Exception $e) {
+
         $_SESSION['message'] = "Er ging wat fout.";
         exit;
     }
@@ -615,9 +623,9 @@ function getPunten($examen_id, $gebruiker_id) {
         $stmt = $db->prepare("
             SELECT *
             FROM examenvraag
-			Join Score ON examenvraag.examenvraag_id = Score.examenvraag_id
+			Join score ON examenvraag.examenvraag_id = score.examenvraag_id
             WHERE examen_id = ?
-            AND Score.gebruiker_id = ?
+            AND score.gebruiker_id = ?
             ORDER BY examenvraag ASC
             ");
         $stmt->bindParam(1, $examen_id);
@@ -710,5 +718,3 @@ function countGemaakteExamens() {
     $results = $stmt->fetch(PDO::FETCH_ASSOC);
     return $results['0'];
 }
-
-

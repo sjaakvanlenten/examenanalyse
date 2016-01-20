@@ -1,5 +1,5 @@
 <?php
-require_once("/includes/init.php");
+require_once(__DIR__ . "/includes/init.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,7 +10,8 @@ require_once("/includes/init.php");
         <meta name="theme-color" content="#1BBC9B">
         <link rel="stylesheet" href="/assets/css/bootstrap.css" type="text/css" media="all">
         <link rel="stylesheet" href="/assets/css/style.css" type="text/css" media="all">
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="assets/js/pace.min.js"></script>
+        <link href="assets/css/loadbar.css" rel="stylesheet" />
     </head>
     <body class="alternative-body">
         <?php include(ROOT_PATH . "includes/partials/message.html.php"); ?>
@@ -25,7 +26,7 @@ require_once("/includes/init.php");
         </div>
 
         <div class="copyrightelement">
-            <center>Copyright &copy; 2015. All Rights Reserved | Design by KBS ICTM1a KPM05</center>
+            <center>© 2015 - 2016 Examenanalyse v1.0 BETA | Design by KBS ICTM1a KPM05</center>
         </div>
 
 
