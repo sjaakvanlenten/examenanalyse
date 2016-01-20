@@ -8,14 +8,14 @@ $x = count($gegevens);
 $e = 1;
 foreach ($gegevens as $gegeven) {
     ?>
-            { label: "<br><?php
+            { label: "<?php
     foreach ($categoriedata as $t) {
         $q = $t['categorieomschrijving'];
         if ($gegeven['categorie_id'] == $t['categorie_id']) {
             echo $q;
         }
     }
-    ?><br><br>", data:"<?php echo $gegeven['count(categorie_id)']; ?>"}
+    ?>", data:"<?php echo $gegeven['count(categorie_id)']; ?>"}
     <?php
     $e++;
     if ($x >= $e) {
